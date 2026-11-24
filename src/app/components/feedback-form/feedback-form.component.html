@@ -1,0 +1,172 @@
+<div class="feedback-card">
+  <div class="card-header">
+    <h2 class="card-title">
+      Submit Feedback
+      @if (selectedTripId()) {
+        <span class="trip-badge">— Trip {{ selectedTripId() }}</span>
+      }
+    </h2>
+    @if (selectedTrip(); as trip) {
+      <p class="driver-subtitle">Driver: {{ trip.driverName }} ({{ trip.driverId }})</p>
+    }
+  </div>
+
+  <form class="feedback-form" (submit)="onSubmit($event)">
+    <!-- Trip Selector -->
+    <div class="form-group">
+      <label for="tripSelect" class="form-label">
+        Select Trip <span class="required" aria-hidden="true">*</span>
+      </label>
+      <select
+        id="tripSelect"
+        class="form-select"
+        [class.has-error]="showTripError()"
+        [value]="selectedTripId()"
+        (change)="onTripChange($event)"
+        (blur)="markTouched('trip')"
+      >
+        <option value="" disabled selected>-- Select a trip --</option>
+        @for (trip of trips(); track trip.tripId) {
+          <option [value]="trip.tripId" [disabled]="isTripRated(trip.tripId)">
+            {{ trip.tripId }} — {{ trip.driverName }}{{ isTripRated(trip.tripId) ? ' (already rated)' : '' }}
+          </option>
+        }
+      </select>
+      @if (showTripError()) {
+        <p class="inline-error" role="alert">{{ tripError() }}</p>
+      }
+    </div>
+
+    <!-- Hand-built Star Rating -->
+    <div class="form-group">
+      <label class="form-label">
+        Overall rating <span class="required" aria-hidden="true">*</span>
+      </label>
+      <div class="rating-wrapper">
+        <app-star-rating
+          [value]="rating()"
+          (valueChange)="onRatingChange($event)"
+        />
+        @if (rating() > 0) {
+          <span class="rating-label">{{ rating() }} of 5 stars</span>
+        }
+      </div>
+      @if (showRatingError()) {
+        <p class="inline-error" role="alert">{{ ratingError() }}</p>
+      }
+    </div>
+
+    <!-- Q1. Was Driver On Time Toggle -->
+    <div class="form-group">
+      <label class="form-label">Q1. Was the driver on time?</label>
+      <div class="toggle-group" role="group" aria-label="Was the driver on time?">
+        <button
+          type="button"
+          class="toggle-btn"
+          [class.active]="onTime()"
+          (click)="setOnTime(true)"
+          [attr.aria-pressed]="onTime()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="toggle-btn"
+          [class.active]="!onTime()"
+          (click)="setOnTime(false)"
+          [attr.aria-pressed]="!onTime()"
+        >
+          No
+        </button>
+      </div>
+    </div>
+
+    <!-- Q2. Was the Cab Clean Toggle (from design mockup) -->
+    <div class="form-group">
+      <label class="form-label">Q2. Was the cab clean?</label>
+      <div class="toggle-group" role="group" aria-label="Was the cab clean?">
+        <button
+          type="button"
+          class="toggle-btn"
+          [class.active]="cabClean()"
+          (click)="setCabClean(true)"
+          [attr.aria-pressed]="cabClean()"
+        >
+          Yes
+        </button>
+        <button
+          type="button"
+          class="toggle-btn"
+          [class.active]="!cabClean()"
+          (click)="setCabClean(false)"
+          [attr.aria-pressed]="!cabClean()"
+        >
+          No
+        </button>
+      </div>
+    </div>
+
+    <!-- Optional Comment with Live Character Counter -->
+    <div class="form-group">
+      <div class="comment-label-row">
+        <label for="commentArea" class="form-label">Comments (optional)</label>
+        <span
+          class="char-counter"
+          [class.is-invalid]="commentLength() > 200"
+          aria-live="polite"
+        >
+          {{ commentLength() }}/200
+        </span>
+      </div>
+      <textarea
+        id="commentArea"
+        class="form-textarea"
+        [class.has-error]="showCommentError()"
+        [value]="comment()"
+        (input)="onCommentInput($event)"
+        (blur)="markTouched('comment')"
+        placeholder="Smooth ride, AC could be better"
+        rows="2"
+      ></textarea>
+      @if (showCommentError()) {
+        <p class="inline-error" role="alert">{{ commentError() }}</p>
+      }
+    </div>
+
+    <!-- Submit Button & Feedback Messages -->
+    <div class="form-actions">
+      <button
+        type="submit"
+        class="submit-button"
+        [disabled]="isSubmitDisabled()"
+      >
+        @if (isSubmitting()) {
+          <span class="spinner" aria-hidden="true"></span>
+          Submitting…
+        } @else {
+          Submit Feedback
+        }
+      </button>
+
+      @if (successMessage()) {
+        <div class="inline-success" role="status">
+          <span class="success-text">✓ {{ successMessage() }}</span>
+          <button
+            type="button"
+            class="dismiss-btn"
+            (click)="clearSuccessMessage()"
+            aria-label="Dismiss success message"
+          >
+            ×
+          </button>
+        </div>
+      }
+
+      @if (duplicateError()) {
+        <div class="inline-duplicate-error" role="alert">
+          ⚠ {{ duplicateError() }}
+        </div>
+      }
+    </div>
+  </form>
+</div>

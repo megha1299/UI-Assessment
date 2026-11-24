@@ -1,0 +1,177 @@
+.dashboard-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -2px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.card-header {
+  border-bottom: 1px solid #f1f5f9;
+  padding-bottom: 1rem;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.table-container {
+  overflow-x: auto;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+}
+
+.aggregates-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.925rem;
+}
+
+.aggregates-table th {
+  background-color: #f0f4f8;
+  color: #334155;
+  font-weight: 700;
+  text-align: left;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #cbd5e1;
+}
+
+.aggregates-table td {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #f1f5f9;
+  color: #334155;
+  vertical-align: middle;
+}
+
+.driver-row:hover {
+  background-color: #f8fafc;
+}
+
+.driver-inline {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.text-center {
+  text-align: center;
+}
+
+.font-medium {
+  font-weight: 500;
+}
+
+.rating-value {
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.badge-low {
+  display: inline-block;
+  background-color: #dc2626;
+  color: #ffffff;
+  font-size: 0.8rem;
+  font-weight: 700;
+  padding: 0.2rem 0.65rem;
+  border-radius: 12px;
+  letter-spacing: 0.02em;
+}
+
+.trend-cell {
+  font-weight: 600;
+  font-size: 0.85rem;
+  color: #475569;
+  cursor: help;
+}
+
+.trend-up {
+  color: #166534;
+}
+
+.trend-down {
+  color: #dc2626;
+}
+
+.trend-caption {
+  font-size: 0.775rem;
+  color: #64748b;
+  margin-top: 0.35rem;
+  margin-bottom: 0;
+  line-height: 1.35;
+}
+
+.no-data {
+  color: #94a3b8;
+  font-weight: 600;
+}
+
+.empty-table {
+  text-align: center;
+  color: #94a3b8;
+  padding: 2rem !important;
+}
+
+/* Summary Section matching mockup */
+.summary-section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+  margin-top: 0.25rem;
+}
+
+.summary-line {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.summary-label {
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.summary-val {
+  margin-left: 0.25rem;
+  font-weight: 700;
+  color: #1e293b;
+}
+
+.stat-count {
+  color: #64748b;
+  font-weight: 500;
+  font-size: 0.9rem;
+  margin-left: 0.25rem;
+}
+
+/* Chart Box matching mockup */
+.chart-box {
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  padding: 1rem 1.25rem;
+  background-color: #ffffff;
+}
+
+.chart-box-title {
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #64748b;
+  margin-bottom: 0.75rem;
+}
+
+.chart-wrapper {
+  position: relative;
+  width: 100%;
+  height: 220px;
+}
+
+.chart-wrapper canvas {
+  display: block;
+  width: 100% !important;
+  height: 100% !important;
+}

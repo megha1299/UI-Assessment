@@ -1,0 +1,93 @@
+<div class="dashboard-card">
+  <!-- Card Header -->
+  <div class="card-header">
+    <h2 class="card-title">Transport Manager — Driver Aggregates</h2>
+  </div>
+
+  <!-- Aggregates Table -->
+  <div class="table-container">
+    <table class="aggregates-table" aria-label="Driver feedback aggregates">
+      <thead>
+        <tr>
+          <th scope="col">Driver</th>
+          <th scope="col" class="text-center">Trips</th>
+          <th scope="col" class="text-center">Ratings</th>
+          <th scope="col" class="text-center">Avg &#x2605;</th>
+          <th scope="col" class="text-center" title="Performance trend (shift from prior ratings or vs fleet average)">
+            Trend
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        @for (driver of drivers(); track driver.driverId) {
+        <tr class="driver-row">
+          <td class="td-driver">
+            <span class="driver-inline">{{ driver.driverName }} ({{ driver.driverId }})</span>
+          </td>
+          <td class="text-center font-medium">{{ driver.tripCount }}</td>
+          <td class="text-center font-medium">{{ driver.ratingCount }}</td>
+          <td class="text-center">
+            @if (driver.avg !== null) {
+            @if (driver.avg < 3.5) { <span class="badge-low" title="Average rating below 3.5">
+              {{ driver.avg | number:'1.1-2' }} low
+              </span>
+              } @else {
+              <span class="rating-value">{{ driver.avg | number:'1.1-2' }}</span>
+              }
+              } @else {
+              <span class="no-data">—</span>
+              }
+          </td>
+          <td class="text-center trend-cell" [class.trend-up]="driver.trend?.startsWith('▲')"
+            [class.trend-down]="driver.trend?.startsWith('▼')" [attr.title]="driver.trendExplanation">
+            {{ driver.trend }}
+          </td>
+        </tr>
+        } @empty {
+        <tr>
+          <td colspan="5" class="empty-table">No drivers available.</td>
+        </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+  <div class="trend-caption">
+    <strong>Trend:</strong> Shift from previous average or relative to fleet benchmark (hover over values for
+    formula).
+  </div>
+
+  <!-- Overall Aggregates Summary matching mockup -->
+  <div class="summary-section">
+    <p class="summary-line">
+      <span class="summary-label">Trip {{ activeTripSummary().tripId }} overall:</span>
+      <span class="summary-val">
+        @if (activeTripSummary().avg !== null) {
+        {{ activeTripSummary().avg | number:'1.1-2' }} &#x2605;
+        } @else {
+        —
+        }
+      </span>
+      <span class="stat-count">({{ activeTripSummary().count }} {{ activeTripSummary().count === 1 ? 'response' :
+        'responses' }})</span>
+    </p>
+    <p class="summary-line">
+      <span class="summary-label">All trips aggregate:</span>
+      <span class="summary-val">
+        @if (overallAvg() !== null) {
+        {{ overallAvg() | number:'1.2-2' }} &#x2605;
+        } @else {
+        —
+        }
+      </span>
+      <span class="stat-count">({{ totalSubmissions() }} {{ totalSubmissions() === 1 ? 'response' : 'responses'
+        }})</span>
+    </p>
+  </div>
+
+  <div class="chart-box">
+    <div class="chart-box-title">Avg rating per driver (last 30 days)</div>
+    <div class="chart-wrapper">
+      <canvas #chartCanvas aria-label="Average rating per driver bar chart" role="img"></canvas>
+    </div>
+  </div>
+</div>
